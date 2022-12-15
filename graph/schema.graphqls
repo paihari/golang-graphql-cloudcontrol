@@ -16,7 +16,7 @@
 # }
 
 
-type Database {
+type OCIDatabase {
     compartmentId: String!
     dbHomeId: String!
     dbName: String!
@@ -31,17 +31,17 @@ type Database {
 }
 
 
-input NewDatabase {
+input NewOCIDatabase {
  dbName: String!
  adminPassword: String!
 }
 
 type Query {
  # movies: [Movie!]!
-  databases: [Database!]!
+  ociDatabases: [OCIDatabase!]!
 }
 
 type Mutation {
 # createMovie(input: NewMovie!): Movie!
-  createDatabase(input: NewDatabase!): Database!
+  createOCIDatabase(input: NewOCIDatabase!): OCIDatabase!
 }

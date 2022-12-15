@@ -2,7 +2,12 @@
 
 package model
 
-type Database struct {
+type NewOCIDatabase struct {
+	DbName        string `json:"dbName"`
+	AdminPassword string `json:"adminPassword"`
+}
+
+type OCIDatabase struct {
 	CompartmentID  string `json:"compartmentId"`
 	DbHomeID       string `json:"dbHomeId"`
 	DbName         string `json:"dbName"`
@@ -14,9 +19,4 @@ type Database struct {
 	LifecycleState string `json:"lifecycleState"`
 	TimeCreated    string `json:"timeCreated"`
 	AdminPassword  string `json:"adminPassword"`
-}
-
-type NewDatabase struct {
-	DbName        string `json:"dbName"`
-	AdminPassword string `json:"adminPassword"`
 }

@@ -9,33 +9,83 @@ import (
 	"fmt"
 
 	"github.com/paihari/golang-graphql-cloudcontrol/graph/model"
+	"github.com/oracle/oci-go-sdk/v65/common"
+	"github.com/oracle/oci-go-sdk/v65/database"
+	"github.com/oracle/oci-go-sdk/v65/example/helpers"
+
 )
 
-// CreateDatabase is the resolver for the createDatabase field.
-func (r *mutationResolver) CreateDatabase(ctx context.Context, input model.NewDatabase) (*model.Database, error) {
-	database := model.Database{
+// CreateOCIDatabase is the resolver for the createOCIDatabase field.
+func (r *mutationResolver) CreateOCIDatabase(ctx context.Context, input model.NewOCIDatabase) (*model.OCIDatabase, error) {
+	ociDatabase := model.OCIDatabase{
 		DbName:        input.DbName,
 		AdminPassword: input.AdminPassword,
 	}
+	client, err := database.NewDatabaseClientWithConfigurationProvider(common.DefaultConfigProvider())
+	helpers.FatalIfError(err)
+	fmt.Printf("The Client Meta Information" + client.BasePath)
+
+	// req := database.CreateDatabaseRequest{OpcRequestId: common.String("BB9JIFZNUJY2Y2QA0OZG<unique_ID>"),
+	// 	OpcRetryToken: common.String("EXAMPLE-opcRetryToken-Value"),
+	// 	CreateNewDatabaseDetails: database.CreateDatabaseDetails {
+	// 		DbName: 	common.String("EXAMPLE-dbName-Value"),
+	// 		AdminPassword: 	common.String("EXAMPLE-adminPassword-Value")
+
+	// }
+
+	request := database.CreateDatabaseRequest {
+		OpcRequestId: common.String("BB9JIFZNUJY2Y2QA0OZG<unique_ID>"),
+		OpcRetryToken: common.String("EXAMPLE-opcRetryToken-Value"),
+		CreateNewDatabaseDetails: database.CreateDatabaseBase {
+			
+
+		},
+
+	}
+
+	req := database.CreateDatabaseRequest{
+		OpcRequestId: common.String("BB9JIFZNUJY2Y2QA0OZG<unique_ID>"),
+		OpcRetryToken: common.String("EXAMPLE-opcRetryToken-Value"),
+		CreateNewDatabaseDetails: database.CreateDatabaseFromBackup{
+			Database: &database.CreateDatabaseFromBackupDetails{
+				SidPrefix: common.String("EXAMPLE-sidPrefix-Value"),
+				AdminPassword:     common.String("EXAMPLE-adminPassword-Value"),
+				BackupId:          common.String("ocid1.test.oc1..<unique_ID>EXAMPLE-backupId-Value"),
+				BackupTDEPassword: common.String("EXAMPLE-backupTDEPassword-Value"),
+				DbName:            common.String("EXAMPLE-dbName-Value"),
+				DbUniqueName:      common.String("EXAMPLE-dbUniqueName-Value")},
+				DbHomeId:        common.String("ocid1.test.oc1..<unique_ID>EXAMPLE-dbHomeId-Value"),
+				DbVersion:       common.String("EXAMPLE-dbVersion-Value"),
+				KmsKeyId:        common.String("ocid1.test.oc1..<unique_ID>EXAMPLE-kmsKeyId-Value"),
+				KmsKeyVersionId: common.String("ocid1.test.oc1..<unique_ID>EXAMPLE-kmsKeyVersionId-Value"),
+		},
+	}
+
+	fmt.Println(req)
+	// Send the request using the service client
+	resp, err := client.CreateDatabase(context.Background(), req)
+	helpers.FatalIfError(err)
+	fmt.Println(resp)
+
 	// _, err := r.DB.Model(&database).Insert()
 	// if err != nil {
 	// 	return nil, fmt.Errorf("error inserting new database: %v", err)
 	// }
-	fmt.Printf("New Database Created" + input.DbName)
+	fmt.Printf("New Database Created " + input.DbName)
 
-	return &database, nil
+	return &ociDatabase, nil
 }
 
-// Databases is the resolver for the databases field.
-func (r *queryResolver) Databases(ctx context.Context) ([]*model.Database, error) {
-	var databases []*model.Database
+// OciDatabases is the resolver for the ociDatabases field.
+func (r *queryResolver) OciDatabases(ctx context.Context) ([]*model.OCIDatabase, error) {
+	var ociDatabases []*model.OCIDatabase
 
 	// err := r.DB.Model(&databases).Select()
 	// if err != nil {
 	// 	return nil, err
 	// }
 	fmt.Printf("Listing Databases ...")
-	return databases, nil
+	return ociDatabases, nil
 }
 
 // Mutation returns MutationResolver implementation.

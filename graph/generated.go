@@ -45,7 +45,11 @@ type DirectiveRoot struct {
 }
 
 type ComplexityRoot struct {
-	Database struct {
+	Mutation struct {
+		CreateOCIDatabase func(childComplexity int, input model.NewOCIDatabase) int
+	}
+
+	OCIDatabase struct {
 		AdminPassword  func(childComplexity int) int
 		CharacterSet   func(childComplexity int) int
 		CompartmentID  func(childComplexity int) int
@@ -59,20 +63,16 @@ type ComplexityRoot struct {
 		TimeCreated    func(childComplexity int) int
 	}
 
-	Mutation struct {
-		CreateDatabase func(childComplexity int, input model.NewDatabase) int
-	}
-
 	Query struct {
-		Databases func(childComplexity int) int
+		OciDatabases func(childComplexity int) int
 	}
 }
 
 type MutationResolver interface {
-	CreateDatabase(ctx context.Context, input model.NewDatabase) (*model.Database, error)
+	CreateOCIDatabase(ctx context.Context, input model.NewOCIDatabase) (*model.OCIDatabase, error)
 }
 type QueryResolver interface {
-	Databases(ctx context.Context) ([]*model.Database, error)
+	OciDatabases(ctx context.Context) ([]*model.OCIDatabase, error)
 }
 
 type executableSchema struct {
@@ -90,101 +90,101 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 	_ = ec
 	switch typeName + "." + field {
 
-	case "Database.adminPassword":
-		if e.complexity.Database.AdminPassword == nil {
+	case "Mutation.createOCIDatabase":
+		if e.complexity.Mutation.CreateOCIDatabase == nil {
 			break
 		}
 
-		return e.complexity.Database.AdminPassword(childComplexity), true
-
-	case "Database.characterSet":
-		if e.complexity.Database.CharacterSet == nil {
-			break
-		}
-
-		return e.complexity.Database.CharacterSet(childComplexity), true
-
-	case "Database.compartmentId":
-		if e.complexity.Database.CompartmentID == nil {
-			break
-		}
-
-		return e.complexity.Database.CompartmentID(childComplexity), true
-
-	case "Database.dbHomeId":
-		if e.complexity.Database.DbHomeID == nil {
-			break
-		}
-
-		return e.complexity.Database.DbHomeID(childComplexity), true
-
-	case "Database.dbName":
-		if e.complexity.Database.DbName == nil {
-			break
-		}
-
-		return e.complexity.Database.DbName(childComplexity), true
-
-	case "Database.dbUniqueName":
-		if e.complexity.Database.DbUniqueName == nil {
-			break
-		}
-
-		return e.complexity.Database.DbUniqueName(childComplexity), true
-
-	case "Database.id":
-		if e.complexity.Database.ID == nil {
-			break
-		}
-
-		return e.complexity.Database.ID(childComplexity), true
-
-	case "Database.kmsKeyId":
-		if e.complexity.Database.KmsKeyID == nil {
-			break
-		}
-
-		return e.complexity.Database.KmsKeyID(childComplexity), true
-
-	case "Database.lifecycleState":
-		if e.complexity.Database.LifecycleState == nil {
-			break
-		}
-
-		return e.complexity.Database.LifecycleState(childComplexity), true
-
-	case "Database.ncharacterSet":
-		if e.complexity.Database.NcharacterSet == nil {
-			break
-		}
-
-		return e.complexity.Database.NcharacterSet(childComplexity), true
-
-	case "Database.timeCreated":
-		if e.complexity.Database.TimeCreated == nil {
-			break
-		}
-
-		return e.complexity.Database.TimeCreated(childComplexity), true
-
-	case "Mutation.createDatabase":
-		if e.complexity.Mutation.CreateDatabase == nil {
-			break
-		}
-
-		args, err := ec.field_Mutation_createDatabase_args(context.TODO(), rawArgs)
+		args, err := ec.field_Mutation_createOCIDatabase_args(context.TODO(), rawArgs)
 		if err != nil {
 			return 0, false
 		}
 
-		return e.complexity.Mutation.CreateDatabase(childComplexity, args["input"].(model.NewDatabase)), true
+		return e.complexity.Mutation.CreateOCIDatabase(childComplexity, args["input"].(model.NewOCIDatabase)), true
 
-	case "Query.databases":
-		if e.complexity.Query.Databases == nil {
+	case "OCIDatabase.adminPassword":
+		if e.complexity.OCIDatabase.AdminPassword == nil {
 			break
 		}
 
-		return e.complexity.Query.Databases(childComplexity), true
+		return e.complexity.OCIDatabase.AdminPassword(childComplexity), true
+
+	case "OCIDatabase.characterSet":
+		if e.complexity.OCIDatabase.CharacterSet == nil {
+			break
+		}
+
+		return e.complexity.OCIDatabase.CharacterSet(childComplexity), true
+
+	case "OCIDatabase.compartmentId":
+		if e.complexity.OCIDatabase.CompartmentID == nil {
+			break
+		}
+
+		return e.complexity.OCIDatabase.CompartmentID(childComplexity), true
+
+	case "OCIDatabase.dbHomeId":
+		if e.complexity.OCIDatabase.DbHomeID == nil {
+			break
+		}
+
+		return e.complexity.OCIDatabase.DbHomeID(childComplexity), true
+
+	case "OCIDatabase.dbName":
+		if e.complexity.OCIDatabase.DbName == nil {
+			break
+		}
+
+		return e.complexity.OCIDatabase.DbName(childComplexity), true
+
+	case "OCIDatabase.dbUniqueName":
+		if e.complexity.OCIDatabase.DbUniqueName == nil {
+			break
+		}
+
+		return e.complexity.OCIDatabase.DbUniqueName(childComplexity), true
+
+	case "OCIDatabase.id":
+		if e.complexity.OCIDatabase.ID == nil {
+			break
+		}
+
+		return e.complexity.OCIDatabase.ID(childComplexity), true
+
+	case "OCIDatabase.kmsKeyId":
+		if e.complexity.OCIDatabase.KmsKeyID == nil {
+			break
+		}
+
+		return e.complexity.OCIDatabase.KmsKeyID(childComplexity), true
+
+	case "OCIDatabase.lifecycleState":
+		if e.complexity.OCIDatabase.LifecycleState == nil {
+			break
+		}
+
+		return e.complexity.OCIDatabase.LifecycleState(childComplexity), true
+
+	case "OCIDatabase.ncharacterSet":
+		if e.complexity.OCIDatabase.NcharacterSet == nil {
+			break
+		}
+
+		return e.complexity.OCIDatabase.NcharacterSet(childComplexity), true
+
+	case "OCIDatabase.timeCreated":
+		if e.complexity.OCIDatabase.TimeCreated == nil {
+			break
+		}
+
+		return e.complexity.OCIDatabase.TimeCreated(childComplexity), true
+
+	case "Query.ociDatabases":
+		if e.complexity.Query.OciDatabases == nil {
+			break
+		}
+
+		return e.complexity.Query.OciDatabases(childComplexity), true
 
 	}
 	return 0, false
@@ -194,7 +194,7 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 	rc := graphql.GetOperationContext(ctx)
 	ec := executionContext{rc, e}
 	inputUnmarshalMap := graphql.BuildUnmarshalerMap(
-		ec.unmarshalInputNewDatabase,
+		ec.unmarshalInputNewOCIDatabase,
 	)
 	first := true
 
@@ -274,13 +274,13 @@ var parsedSchema = gqlparser.MustLoadSchema(sources...)
 
 // region    ***************************** args.gotpl *****************************
 
-func (ec *executionContext) field_Mutation_createDatabase_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+func (ec *executionContext) field_Mutation_createOCIDatabase_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 model.NewDatabase
+	var arg0 model.NewOCIDatabase
 	if tmp, ok := rawArgs["input"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-		arg0, err = ec.unmarshalNNewDatabase2githubᚗcomᚋpaihariᚋgolangᚑgraphqlᚑcloudcontrolᚋgraphᚋmodelᚐNewDatabase(ctx, tmp)
+		arg0, err = ec.unmarshalNNewOCIDatabase2githubᚗcomᚋpaihariᚋgolangᚑgraphqlᚑcloudcontrolᚋgraphᚋmodelᚐNewOCIDatabase(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -342,8 +342,87 @@ func (ec *executionContext) field___Type_fields_args(ctx context.Context, rawArg
 
 // region    **************************** field.gotpl *****************************
 
-func (ec *executionContext) _Database_compartmentId(ctx context.Context, field graphql.CollectedField, obj *model.Database) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Database_compartmentId(ctx, field)
+func (ec *executionContext) _Mutation_createOCIDatabase(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_createOCIDatabase(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().CreateOCIDatabase(rctx, fc.Args["input"].(model.NewOCIDatabase))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.OCIDatabase)
+	fc.Result = res
+	return ec.marshalNOCIDatabase2ᚖgithubᚗcomᚋpaihariᚋgolangᚑgraphqlᚑcloudcontrolᚋgraphᚋmodelᚐOCIDatabase(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_createOCIDatabase(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "compartmentId":
+				return ec.fieldContext_OCIDatabase_compartmentId(ctx, field)
+			case "dbHomeId":
+				return ec.fieldContext_OCIDatabase_dbHomeId(ctx, field)
+			case "dbName":
+				return ec.fieldContext_OCIDatabase_dbName(ctx, field)
+			case "dbUniqueName":
+				return ec.fieldContext_OCIDatabase_dbUniqueName(ctx, field)
+			case "characterSet":
+				return ec.fieldContext_OCIDatabase_characterSet(ctx, field)
+			case "ncharacterSet":
+				return ec.fieldContext_OCIDatabase_ncharacterSet(ctx, field)
+			case "id":
+				return ec.fieldContext_OCIDatabase_id(ctx, field)
+			case "kmsKeyId":
+				return ec.fieldContext_OCIDatabase_kmsKeyId(ctx, field)
+			case "lifecycleState":
+				return ec.fieldContext_OCIDatabase_lifecycleState(ctx, field)
+			case "timeCreated":
+				return ec.fieldContext_OCIDatabase_timeCreated(ctx, field)
+			case "adminPassword":
+				return ec.fieldContext_OCIDatabase_adminPassword(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type OCIDatabase", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_createOCIDatabase_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _OCIDatabase_compartmentId(ctx context.Context, field graphql.CollectedField, obj *model.OCIDatabase) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_OCIDatabase_compartmentId(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -373,9 +452,9 @@ func (ec *executionContext) _Database_compartmentId(ctx context.Context, field g
 	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_Database_compartmentId(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_OCIDatabase_compartmentId(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
-		Object:     "Database",
+		Object:     "OCIDatabase",
 		Field:      field,
 		IsMethod:   false,
 		IsResolver: false,
@@ -386,8 +465,8 @@ func (ec *executionContext) fieldContext_Database_compartmentId(ctx context.Cont
 	return fc, nil
 }
 
-func (ec *executionContext) _Database_dbHomeId(ctx context.Context, field graphql.CollectedField, obj *model.Database) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Database_dbHomeId(ctx, field)
+func (ec *executionContext) _OCIDatabase_dbHomeId(ctx context.Context, field graphql.CollectedField, obj *model.OCIDatabase) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_OCIDatabase_dbHomeId(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -417,9 +496,9 @@ func (ec *executionContext) _Database_dbHomeId(ctx context.Context, field graphq
 	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_Database_dbHomeId(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_OCIDatabase_dbHomeId(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
-		Object:     "Database",
+		Object:     "OCIDatabase",
 		Field:      field,
 		IsMethod:   false,
 		IsResolver: false,
@@ -430,8 +509,8 @@ func (ec *executionContext) fieldContext_Database_dbHomeId(ctx context.Context, 
 	return fc, nil
 }
 
-func (ec *executionContext) _Database_dbName(ctx context.Context, field graphql.CollectedField, obj *model.Database) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Database_dbName(ctx, field)
+func (ec *executionContext) _OCIDatabase_dbName(ctx context.Context, field graphql.CollectedField, obj *model.OCIDatabase) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_OCIDatabase_dbName(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -461,9 +540,9 @@ func (ec *executionContext) _Database_dbName(ctx context.Context, field graphql.
 	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_Database_dbName(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_OCIDatabase_dbName(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
-		Object:     "Database",
+		Object:     "OCIDatabase",
 		Field:      field,
 		IsMethod:   false,
 		IsResolver: false,
@@ -474,8 +553,8 @@ func (ec *executionContext) fieldContext_Database_dbName(ctx context.Context, fi
 	return fc, nil
 }
 
-func (ec *executionContext) _Database_dbUniqueName(ctx context.Context, field graphql.CollectedField, obj *model.Database) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Database_dbUniqueName(ctx, field)
+func (ec *executionContext) _OCIDatabase_dbUniqueName(ctx context.Context, field graphql.CollectedField, obj *model.OCIDatabase) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_OCIDatabase_dbUniqueName(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -505,9 +584,9 @@ func (ec *executionContext) _Database_dbUniqueName(ctx context.Context, field gr
 	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_Database_dbUniqueName(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_OCIDatabase_dbUniqueName(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
-		Object:     "Database",
+		Object:     "OCIDatabase",
 		Field:      field,
 		IsMethod:   false,
 		IsResolver: false,
@@ -518,8 +597,8 @@ func (ec *executionContext) fieldContext_Database_dbUniqueName(ctx context.Conte
 	return fc, nil
 }
 
-func (ec *executionContext) _Database_characterSet(ctx context.Context, field graphql.CollectedField, obj *model.Database) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Database_characterSet(ctx, field)
+func (ec *executionContext) _OCIDatabase_characterSet(ctx context.Context, field graphql.CollectedField, obj *model.OCIDatabase) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_OCIDatabase_characterSet(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -549,9 +628,9 @@ func (ec *executionContext) _Database_characterSet(ctx context.Context, field gr
 	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_Database_characterSet(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_OCIDatabase_characterSet(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
-		Object:     "Database",
+		Object:     "OCIDatabase",
 		Field:      field,
 		IsMethod:   false,
 		IsResolver: false,
@@ -562,8 +641,8 @@ func (ec *executionContext) fieldContext_Database_characterSet(ctx context.Conte
 	return fc, nil
 }
 
-func (ec *executionContext) _Database_ncharacterSet(ctx context.Context, field graphql.CollectedField, obj *model.Database) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Database_ncharacterSet(ctx, field)
+func (ec *executionContext) _OCIDatabase_ncharacterSet(ctx context.Context, field graphql.CollectedField, obj *model.OCIDatabase) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_OCIDatabase_ncharacterSet(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -593,9 +672,9 @@ func (ec *executionContext) _Database_ncharacterSet(ctx context.Context, field g
 	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_Database_ncharacterSet(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_OCIDatabase_ncharacterSet(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
-		Object:     "Database",
+		Object:     "OCIDatabase",
 		Field:      field,
 		IsMethod:   false,
 		IsResolver: false,
@@ -606,8 +685,8 @@ func (ec *executionContext) fieldContext_Database_ncharacterSet(ctx context.Cont
 	return fc, nil
 }
 
-func (ec *executionContext) _Database_id(ctx context.Context, field graphql.CollectedField, obj *model.Database) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Database_id(ctx, field)
+func (ec *executionContext) _OCIDatabase_id(ctx context.Context, field graphql.CollectedField, obj *model.OCIDatabase) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_OCIDatabase_id(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -637,9 +716,9 @@ func (ec *executionContext) _Database_id(ctx context.Context, field graphql.Coll
 	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_Database_id(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_OCIDatabase_id(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
-		Object:     "Database",
+		Object:     "OCIDatabase",
 		Field:      field,
 		IsMethod:   false,
 		IsResolver: false,
@@ -650,8 +729,8 @@ func (ec *executionContext) fieldContext_Database_id(ctx context.Context, field 
 	return fc, nil
 }
 
-func (ec *executionContext) _Database_kmsKeyId(ctx context.Context, field graphql.CollectedField, obj *model.Database) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Database_kmsKeyId(ctx, field)
+func (ec *executionContext) _OCIDatabase_kmsKeyId(ctx context.Context, field graphql.CollectedField, obj *model.OCIDatabase) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_OCIDatabase_kmsKeyId(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -681,9 +760,9 @@ func (ec *executionContext) _Database_kmsKeyId(ctx context.Context, field graphq
 	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_Database_kmsKeyId(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_OCIDatabase_kmsKeyId(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
-		Object:     "Database",
+		Object:     "OCIDatabase",
 		Field:      field,
 		IsMethod:   false,
 		IsResolver: false,
@@ -694,8 +773,8 @@ func (ec *executionContext) fieldContext_Database_kmsKeyId(ctx context.Context, 
 	return fc, nil
 }
 
-func (ec *executionContext) _Database_lifecycleState(ctx context.Context, field graphql.CollectedField, obj *model.Database) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Database_lifecycleState(ctx, field)
+func (ec *executionContext) _OCIDatabase_lifecycleState(ctx context.Context, field graphql.CollectedField, obj *model.OCIDatabase) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_OCIDatabase_lifecycleState(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -725,9 +804,9 @@ func (ec *executionContext) _Database_lifecycleState(ctx context.Context, field 
 	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_Database_lifecycleState(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_OCIDatabase_lifecycleState(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
-		Object:     "Database",
+		Object:     "OCIDatabase",
 		Field:      field,
 		IsMethod:   false,
 		IsResolver: false,
@@ -738,8 +817,8 @@ func (ec *executionContext) fieldContext_Database_lifecycleState(ctx context.Con
 	return fc, nil
 }
 
-func (ec *executionContext) _Database_timeCreated(ctx context.Context, field graphql.CollectedField, obj *model.Database) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Database_timeCreated(ctx, field)
+func (ec *executionContext) _OCIDatabase_timeCreated(ctx context.Context, field graphql.CollectedField, obj *model.OCIDatabase) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_OCIDatabase_timeCreated(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -769,9 +848,9 @@ func (ec *executionContext) _Database_timeCreated(ctx context.Context, field gra
 	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_Database_timeCreated(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_OCIDatabase_timeCreated(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
-		Object:     "Database",
+		Object:     "OCIDatabase",
 		Field:      field,
 		IsMethod:   false,
 		IsResolver: false,
@@ -782,8 +861,8 @@ func (ec *executionContext) fieldContext_Database_timeCreated(ctx context.Contex
 	return fc, nil
 }
 
-func (ec *executionContext) _Database_adminPassword(ctx context.Context, field graphql.CollectedField, obj *model.Database) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Database_adminPassword(ctx, field)
+func (ec *executionContext) _OCIDatabase_adminPassword(ctx context.Context, field graphql.CollectedField, obj *model.OCIDatabase) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_OCIDatabase_adminPassword(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -813,9 +892,9 @@ func (ec *executionContext) _Database_adminPassword(ctx context.Context, field g
 	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_Database_adminPassword(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_OCIDatabase_adminPassword(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
-		Object:     "Database",
+		Object:     "OCIDatabase",
 		Field:      field,
 		IsMethod:   false,
 		IsResolver: false,
@@ -826,8 +905,8 @@ func (ec *executionContext) fieldContext_Database_adminPassword(ctx context.Cont
 	return fc, nil
 }
 
-func (ec *executionContext) _Mutation_createDatabase(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_createDatabase(ctx, field)
+func (ec *executionContext) _Query_ociDatabases(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_ociDatabases(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -840,7 +919,7 @@ func (ec *executionContext) _Mutation_createDatabase(ctx context.Context, field 
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().CreateDatabase(rctx, fc.Args["input"].(model.NewDatabase))
+		return ec.resolvers.Query().OciDatabases(rctx)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -852,91 +931,12 @@ func (ec *executionContext) _Mutation_createDatabase(ctx context.Context, field 
 		}
 		return graphql.Null
 	}
-	res := resTmp.(*model.Database)
+	res := resTmp.([]*model.OCIDatabase)
 	fc.Result = res
-	return ec.marshalNDatabase2ᚖgithubᚗcomᚋpaihariᚋgolangᚑgraphqlᚑcloudcontrolᚋgraphᚋmodelᚐDatabase(ctx, field.Selections, res)
+	return ec.marshalNOCIDatabase2ᚕᚖgithubᚗcomᚋpaihariᚋgolangᚑgraphqlᚑcloudcontrolᚋgraphᚋmodelᚐOCIDatabaseᚄ(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_Mutation_createDatabase(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Mutation",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "compartmentId":
-				return ec.fieldContext_Database_compartmentId(ctx, field)
-			case "dbHomeId":
-				return ec.fieldContext_Database_dbHomeId(ctx, field)
-			case "dbName":
-				return ec.fieldContext_Database_dbName(ctx, field)
-			case "dbUniqueName":
-				return ec.fieldContext_Database_dbUniqueName(ctx, field)
-			case "characterSet":
-				return ec.fieldContext_Database_characterSet(ctx, field)
-			case "ncharacterSet":
-				return ec.fieldContext_Database_ncharacterSet(ctx, field)
-			case "id":
-				return ec.fieldContext_Database_id(ctx, field)
-			case "kmsKeyId":
-				return ec.fieldContext_Database_kmsKeyId(ctx, field)
-			case "lifecycleState":
-				return ec.fieldContext_Database_lifecycleState(ctx, field)
-			case "timeCreated":
-				return ec.fieldContext_Database_timeCreated(ctx, field)
-			case "adminPassword":
-				return ec.fieldContext_Database_adminPassword(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type Database", field.Name)
-		},
-	}
-	defer func() {
-		if r := recover(); r != nil {
-			err = ec.Recover(ctx, r)
-			ec.Error(ctx, err)
-		}
-	}()
-	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Mutation_createDatabase_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
-		ec.Error(ctx, err)
-		return
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Query_databases(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Query_databases(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().Databases(rctx)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.([]*model.Database)
-	fc.Result = res
-	return ec.marshalNDatabase2ᚕᚖgithubᚗcomᚋpaihariᚋgolangᚑgraphqlᚑcloudcontrolᚋgraphᚋmodelᚐDatabaseᚄ(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Query_databases(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_Query_ociDatabases(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Query",
 		Field:      field,
@@ -945,29 +945,29 @@ func (ec *executionContext) fieldContext_Query_databases(ctx context.Context, fi
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
 			case "compartmentId":
-				return ec.fieldContext_Database_compartmentId(ctx, field)
+				return ec.fieldContext_OCIDatabase_compartmentId(ctx, field)
 			case "dbHomeId":
-				return ec.fieldContext_Database_dbHomeId(ctx, field)
+				return ec.fieldContext_OCIDatabase_dbHomeId(ctx, field)
 			case "dbName":
-				return ec.fieldContext_Database_dbName(ctx, field)
+				return ec.fieldContext_OCIDatabase_dbName(ctx, field)
 			case "dbUniqueName":
-				return ec.fieldContext_Database_dbUniqueName(ctx, field)
+				return ec.fieldContext_OCIDatabase_dbUniqueName(ctx, field)
 			case "characterSet":
-				return ec.fieldContext_Database_characterSet(ctx, field)
+				return ec.fieldContext_OCIDatabase_characterSet(ctx, field)
 			case "ncharacterSet":
-				return ec.fieldContext_Database_ncharacterSet(ctx, field)
+				return ec.fieldContext_OCIDatabase_ncharacterSet(ctx, field)
 			case "id":
-				return ec.fieldContext_Database_id(ctx, field)
+				return ec.fieldContext_OCIDatabase_id(ctx, field)
 			case "kmsKeyId":
-				return ec.fieldContext_Database_kmsKeyId(ctx, field)
+				return ec.fieldContext_OCIDatabase_kmsKeyId(ctx, field)
 			case "lifecycleState":
-				return ec.fieldContext_Database_lifecycleState(ctx, field)
+				return ec.fieldContext_OCIDatabase_lifecycleState(ctx, field)
 			case "timeCreated":
-				return ec.fieldContext_Database_timeCreated(ctx, field)
+				return ec.fieldContext_OCIDatabase_timeCreated(ctx, field)
 			case "adminPassword":
-				return ec.fieldContext_Database_adminPassword(ctx, field)
+				return ec.fieldContext_OCIDatabase_adminPassword(ctx, field)
 			}
-			return nil, fmt.Errorf("no field named %q was found under type Database", field.Name)
+			return nil, fmt.Errorf("no field named %q was found under type OCIDatabase", field.Name)
 		},
 	}
 	return fc, nil
@@ -2875,8 +2875,8 @@ func (ec *executionContext) fieldContext___Type_specifiedByURL(ctx context.Conte
 
 // region    **************************** input.gotpl *****************************
 
-func (ec *executionContext) unmarshalInputNewDatabase(ctx context.Context, obj interface{}) (model.NewDatabase, error) {
-	var it model.NewDatabase
+func (ec *executionContext) unmarshalInputNewOCIDatabase(ctx context.Context, obj interface{}) (model.NewOCIDatabase, error) {
+	var it model.NewOCIDatabase
 	asMap := map[string]interface{}{}
 	for k, v := range obj.(map[string]interface{}) {
 		asMap[k] = v
@@ -2919,104 +2919,6 @@ func (ec *executionContext) unmarshalInputNewDatabase(ctx context.Context, obj i
 
 // region    **************************** object.gotpl ****************************
 
-var databaseImplementors = []string{"Database"}
-
-func (ec *executionContext) _Database(ctx context.Context, sel ast.SelectionSet, obj *model.Database) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, databaseImplementors)
-	out := graphql.NewFieldSet(fields)
-	var invalids uint32
-	for i, field := range fields {
-		switch field.Name {
-		case "__typename":
-			out.Values[i] = graphql.MarshalString("Database")
-		case "compartmentId":
-
-			out.Values[i] = ec._Database_compartmentId(ctx, field, obj)
-
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "dbHomeId":
-
-			out.Values[i] = ec._Database_dbHomeId(ctx, field, obj)
-
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "dbName":
-
-			out.Values[i] = ec._Database_dbName(ctx, field, obj)
-
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "dbUniqueName":
-
-			out.Values[i] = ec._Database_dbUniqueName(ctx, field, obj)
-
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "characterSet":
-
-			out.Values[i] = ec._Database_characterSet(ctx, field, obj)
-
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "ncharacterSet":
-
-			out.Values[i] = ec._Database_ncharacterSet(ctx, field, obj)
-
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "id":
-
-			out.Values[i] = ec._Database_id(ctx, field, obj)
-
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "kmsKeyId":
-
-			out.Values[i] = ec._Database_kmsKeyId(ctx, field, obj)
-
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "lifecycleState":
-
-			out.Values[i] = ec._Database_lifecycleState(ctx, field, obj)
-
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "timeCreated":
-
-			out.Values[i] = ec._Database_timeCreated(ctx, field, obj)
-
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "adminPassword":
-
-			out.Values[i] = ec._Database_adminPassword(ctx, field, obj)
-
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		default:
-			panic("unknown field " + strconv.Quote(field.Name))
-		}
-	}
-	out.Dispatch()
-	if invalids > 0 {
-		return graphql.Null
-	}
-	return out
-}
-
 var mutationImplementors = []string{"Mutation"}
 
 func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet) graphql.Marshaler {
@@ -3036,11 +2938,109 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 		switch field.Name {
 		case "__typename":
 			out.Values[i] = graphql.MarshalString("Mutation")
-		case "createDatabase":
+		case "createOCIDatabase":
 
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Mutation_createDatabase(ctx, field)
+				return ec._Mutation_createOCIDatabase(ctx, field)
 			})
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
+var oCIDatabaseImplementors = []string{"OCIDatabase"}
+
+func (ec *executionContext) _OCIDatabase(ctx context.Context, sel ast.SelectionSet, obj *model.OCIDatabase) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, oCIDatabaseImplementors)
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("OCIDatabase")
+		case "compartmentId":
+
+			out.Values[i] = ec._OCIDatabase_compartmentId(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "dbHomeId":
+
+			out.Values[i] = ec._OCIDatabase_dbHomeId(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "dbName":
+
+			out.Values[i] = ec._OCIDatabase_dbName(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "dbUniqueName":
+
+			out.Values[i] = ec._OCIDatabase_dbUniqueName(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "characterSet":
+
+			out.Values[i] = ec._OCIDatabase_characterSet(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "ncharacterSet":
+
+			out.Values[i] = ec._OCIDatabase_ncharacterSet(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "id":
+
+			out.Values[i] = ec._OCIDatabase_id(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "kmsKeyId":
+
+			out.Values[i] = ec._OCIDatabase_kmsKeyId(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "lifecycleState":
+
+			out.Values[i] = ec._OCIDatabase_lifecycleState(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "timeCreated":
+
+			out.Values[i] = ec._OCIDatabase_timeCreated(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "adminPassword":
+
+			out.Values[i] = ec._OCIDatabase_adminPassword(ctx, field, obj)
 
 			if out.Values[i] == graphql.Null {
 				invalids++
@@ -3075,7 +3075,7 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 		switch field.Name {
 		case "__typename":
 			out.Values[i] = graphql.MarshalString("Query")
-		case "databases":
+		case "ociDatabases":
 			field := field
 
 			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
@@ -3084,7 +3084,7 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 						ec.Error(ctx, ec.Recover(ctx, r))
 					}
 				}()
-				res = ec._Query_databases(ctx, field)
+				res = ec._Query_ociDatabases(ctx, field)
 				if res == graphql.Null {
 					atomic.AddUint32(&invalids, 1)
 				}
@@ -3454,11 +3454,16 @@ func (ec *executionContext) marshalNBoolean2bool(ctx context.Context, sel ast.Se
 	return res
 }
 
-func (ec *executionContext) marshalNDatabase2githubᚗcomᚋpaihariᚋgolangᚑgraphqlᚑcloudcontrolᚋgraphᚋmodelᚐDatabase(ctx context.Context, sel ast.SelectionSet, v model.Database) graphql.Marshaler {
-	return ec._Database(ctx, sel, &v)
+func (ec *executionContext) unmarshalNNewOCIDatabase2githubᚗcomᚋpaihariᚋgolangᚑgraphqlᚑcloudcontrolᚋgraphᚋmodelᚐNewOCIDatabase(ctx context.Context, v interface{}) (model.NewOCIDatabase, error) {
+	res, err := ec.unmarshalInputNewOCIDatabase(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) marshalNDatabase2ᚕᚖgithubᚗcomᚋpaihariᚋgolangᚑgraphqlᚑcloudcontrolᚋgraphᚋmodelᚐDatabaseᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Database) graphql.Marshaler {
+func (ec *executionContext) marshalNOCIDatabase2githubᚗcomᚋpaihariᚋgolangᚑgraphqlᚑcloudcontrolᚋgraphᚋmodelᚐOCIDatabase(ctx context.Context, sel ast.SelectionSet, v model.OCIDatabase) graphql.Marshaler {
+	return ec._OCIDatabase(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNOCIDatabase2ᚕᚖgithubᚗcomᚋpaihariᚋgolangᚑgraphqlᚑcloudcontrolᚋgraphᚋmodelᚐOCIDatabaseᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.OCIDatabase) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -3482,7 +3487,7 @@ func (ec *executionContext) marshalNDatabase2ᚕᚖgithubᚗcomᚋpaihariᚋgola
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNDatabase2ᚖgithubᚗcomᚋpaihariᚋgolangᚑgraphqlᚑcloudcontrolᚋgraphᚋmodelᚐDatabase(ctx, sel, v[i])
+			ret[i] = ec.marshalNOCIDatabase2ᚖgithubᚗcomᚋpaihariᚋgolangᚑgraphqlᚑcloudcontrolᚋgraphᚋmodelᚐOCIDatabase(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -3502,19 +3507,14 @@ func (ec *executionContext) marshalNDatabase2ᚕᚖgithubᚗcomᚋpaihariᚋgola
 	return ret
 }
 
-func (ec *executionContext) marshalNDatabase2ᚖgithubᚗcomᚋpaihariᚋgolangᚑgraphqlᚑcloudcontrolᚋgraphᚋmodelᚐDatabase(ctx context.Context, sel ast.SelectionSet, v *model.Database) graphql.Marshaler {
+func (ec *executionContext) marshalNOCIDatabase2ᚖgithubᚗcomᚋpaihariᚋgolangᚑgraphqlᚑcloudcontrolᚋgraphᚋmodelᚐOCIDatabase(ctx context.Context, sel ast.SelectionSet, v *model.OCIDatabase) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
 		}
 		return graphql.Null
 	}
-	return ec._Database(ctx, sel, v)
-}
-
-func (ec *executionContext) unmarshalNNewDatabase2githubᚗcomᚋpaihariᚋgolangᚑgraphqlᚑcloudcontrolᚋgraphᚋmodelᚐNewDatabase(ctx context.Context, v interface{}) (model.NewDatabase, error) {
-	res, err := ec.unmarshalInputNewDatabase(ctx, v)
-	return res, graphql.ErrorOnPath(ctx, err)
+	return ec._OCIDatabase(ctx, sel, v)
 }
 
 func (ec *executionContext) unmarshalNString2string(ctx context.Context, v interface{}) (string, error) {
