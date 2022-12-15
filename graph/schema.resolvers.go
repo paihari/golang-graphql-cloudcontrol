@@ -11,31 +11,31 @@ import (
 	"github.com/paihari/golang-graphql-cloudcontrol/graph/model"
 )
 
-// CreateMovie is the resolver for the createMovie field.
-func (r *mutationResolver) CreateMovie(ctx context.Context, input model.NewMovie) (*model.Movie, error) {
-	movie := model.Movie{
-		Title: input.Title,
-		URL:   input.URL,
+// CreateDatabase is the resolver for the createDatabase field.
+func (r *mutationResolver) CreateDatabase(ctx context.Context, input model.NewDatabase) (*model.Database, error) {
+	database := model.Database{
+		DbName:        input.DbName,
+		AdminPassword: input.AdminPassword,
 	}
+	// _, err := r.DB.Model(&database).Insert()
+	// if err != nil {
+	// 	return nil, fmt.Errorf("error inserting new database: %v", err)
+	// }
+	fmt.Printf("New Database Created" + input.DbName)
 
-	_, err := r.DB.Model(&movie).Insert()
-	if err != nil {
-		return nil, fmt.Errorf("error inserting new movie: %v", err)
-	}
-
-	return &movie, nil
+	return &database, nil
 }
 
-// Movies is the resolver for the movies field.
-func (r *queryResolver) Movies(ctx context.Context) ([]*model.Movie, error) {
-	var movies []*model.Movie
+// Databases is the resolver for the databases field.
+func (r *queryResolver) Databases(ctx context.Context) ([]*model.Database, error) {
+	var databases []*model.Database
 
-	err := r.DB.Model(&movies).Select()
-	if err != nil {
-		return nil, err
-	}
-
-	return movies, nil
+	// err := r.DB.Model(&databases).Select()
+	// if err != nil {
+	// 	return nil, err
+	// }
+	fmt.Printf("Listing Databases ...")
+	return databases, nil
 }
 
 // Mutation returns MutationResolver implementation.

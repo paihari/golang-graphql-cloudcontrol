@@ -2,14 +2,21 @@
 
 package model
 
-type Movie struct {
-	ID          string `json:"id"`
-	Title       string `json:"title"`
-	URL         string `json:"url"`
-	ReleaseDate string `json:"releaseDate"`
+type Database struct {
+	CompartmentID  string `json:"compartmentId"`
+	DbHomeID       string `json:"dbHomeId"`
+	DbName         string `json:"dbName"`
+	DbUniqueName   string `json:"dbUniqueName"`
+	CharacterSet   string `json:"characterSet"`
+	NcharacterSet  string `json:"ncharacterSet"`
+	ID             string `json:"id"`
+	KmsKeyID       string `json:"kmsKeyId"`
+	LifecycleState string `json:"lifecycleState"`
+	TimeCreated    string `json:"timeCreated"`
+	AdminPassword  string `json:"adminPassword"`
 }
 
-type NewMovie struct {
-	Title string `json:"title"`
-	URL   string `json:"url"`
+type NewDatabase struct {
+	DbName        string `json:"dbName"`
+	AdminPassword string `json:"adminPassword"`
 }
