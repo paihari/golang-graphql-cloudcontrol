@@ -1,0 +1,53 @@
+# GraphQL schema example
+#
+# https://gqlgen.com/getting-started/
+
+type Movie {
+ id: ID!
+ title: String!
+ url: String!
+ releaseDate: String!
+}
+
+
+input NewMovie {
+ title: String!
+ url: String!
+}
+
+
+# type Database {
+#     compartmentId: String!
+#     dbHomeId: String!
+#     dbName: String!
+#     dbUniqueName: String!
+#     characterSet: String!
+#     ncharacterSet: String!
+#     id: String!
+#     kmsKeyId: String!
+#     lifecycleState: String!
+#     timeCreated: String!
+# }
+
+
+# input NewDatabase {
+#  dbName: String!
+#  adminPassword: String!
+# }
+
+type Query {
+ movies: [Movie!]!
+#  databases: [Database!]!
+}
+
+type Mutation {
+ createMovie(input: NewMovie!): Movie!
+#  createDatabase(input: NewDatabase!): Database!
+}
+
+
+
+
+
+
+
